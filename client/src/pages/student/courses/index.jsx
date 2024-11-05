@@ -86,6 +86,36 @@ function StudentViewCoursesPage() {
       setLoadingState(false);
     }
   }
+
+  async function handleCourseNavigate(getCurrentCourseId) {
+    console.log("Navigating with courseId:", getCurrentCourseId);
+  
+    // Call the service to check course purchase info
+    const response = await checkCoursePurchaseInfoService(
+      getCurrentCourseId,
+      auth?.user?._id
+    );
+  
+    console.log("Response from course purchase check:", response); // Log the response
+  
+    // Check if the response indicates success
+    if (response?.success) {
+      // If the course is purchased
+      if (response.data) {
+        navigate(`/course-progress/${getCurrentCourseId}`);
+      // } else {
+      //   // If the course is not purchased
+      //   navigate(`/course/details/${getCurrentCourseId}`);
+      // }
+    } else {
+      // Handle cases where student courses are null or no purchased courses exist
+      console.error("Failed to check course purchase info:", response.message);
+      navigate(`/course/details/${getCurrentCourseId}`); // Redirect to course details
+    }
+  }
+  
+  
+
   useEffect(() => {
     const buildQueryStringForFilters = createSearchParamsHelper(filters);
     setSearchParams(new URLSearchParams(buildQueryStringForFilters));
@@ -108,6 +138,7 @@ function StudentViewCoursesPage() {
   }, []);
 
   console.log(loadingState, "loadingState");
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">All Courses</h1>
@@ -176,10 +207,12 @@ function StudentViewCoursesPage() {
             {studentViewCoursesList && studentViewCoursesList.length > 0 ? (
               studentViewCoursesList.map((courseItem) => (
                 <Card
-                  //onClick={() => handleCourseNavigate(courseItem?._id)}
-                  className="cursor-pointer"
-                  key={courseItem?._id}
-                >
+                onClick={() => {
+                 handleCourseNavigate(courseItem._id);
+                }}
+                className="cursor-pointer"
+                key={courseItem?._id}
+              >
                   <CardContent className="flex gap-4 p-4">
                     <div className="w-48 h-32 flex-shrink-0">
                       <img

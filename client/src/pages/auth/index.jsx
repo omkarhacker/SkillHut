@@ -14,7 +14,6 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 function AuthPage() {
-  const [activeTab, setActiveTab] = useState("signin");
   const {
     signInFormData,
     setSignInFormData,
@@ -22,6 +21,7 @@ function AuthPage() {
     setSignUpFormData,
     handleRegisterUser,
     handleLoginUser,
+    activeTab, setActiveTab
   } = useContext(AuthContext);
 
   function handleTabChange(value) {

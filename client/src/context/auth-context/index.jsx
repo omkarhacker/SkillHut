@@ -8,6 +8,7 @@ export const AuthContext = createContext(null);
 export default function AuthProvider({ children }) {
   const [signInFormData, setSignInFormData] = useState(initialSignInFormData);
   const [signUpFormData, setSignUpFormData] = useState(initialSignUpFormData);
+  const [activeTab, setActiveTab] = useState("signin");
   const [auth, setAuth] = useState({
     authenticate: false,
     user: null,
@@ -82,6 +83,8 @@ export default function AuthProvider({ children }) {
     checkAuthUser();
   }, []);
 
+ 
+
   console.log(auth, "gf");
 
   return (
@@ -95,6 +98,7 @@ export default function AuthProvider({ children }) {
         handleLoginUser,
         auth,
         resetCredentials,
+        activeTab, setActiveTab
       }}
     >
       {loading ? <Skeleton /> : children}

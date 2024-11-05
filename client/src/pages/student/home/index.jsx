@@ -1,5 +1,5 @@
 import { courseCategories } from "@/config";
-import banner from "../../../assets/banner-img.png";
+import banner from "../../../../public/banner-img.png";
 import { Button } from "@/components/ui/button";
 import { useContext, useEffect } from "react";
 import { StudentContext } from "@/context/student-context";
@@ -33,10 +33,25 @@ function StudentHomePage() {
     if (response?.success) setStudentViewCoursesList(response?.data);
   }
 
+  async function handleCourseNavigate(getCurrentCourseId) {
+    const response = await checkCoursePurchaseInfoService(
+      getCurrentCourseId,
+      auth?.user?._id
+    );
+
+    if (response?.success) {
+      if (response?.data) {
+        navigate(`/course-progress/${getCurrentCourseId}`);
+      } 
+    }
+    else {
+      navigate(`/course/details/${getCurrentCourseId}`);
+    }
+  }
+
   useEffect(() => {
     fetchAllStudentViewCourses();
   }, []);
-
 
   return (
     <div className="min-h-screen bg-white">
@@ -64,8 +79,8 @@ function StudentHomePage() {
               className="justify-start"
               variant="outline"
               key={categoryItem.id}
-            //   onClick={() => handleNavigateToCoursesPage(categoryItem.id)}
-             >
+              onClick={() => handleNavigateToCoursesPage(categoryItem.id)}
+            >
               {categoryItem.label}
             </Button>
           ))}
