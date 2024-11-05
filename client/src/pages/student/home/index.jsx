@@ -43,6 +43,9 @@ function StudentHomePage() {
       if (response?.data) {
         navigate(`/course-progress/${getCurrentCourseId}`);
       } 
+      else{
+        navigate(`/course/details/${getCurrentCourseId}`);
+      }
     }
     else {
       navigate(`/course/details/${getCurrentCourseId}`);

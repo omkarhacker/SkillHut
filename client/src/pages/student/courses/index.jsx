@@ -100,20 +100,17 @@ function StudentViewCoursesPage() {
   
     // Check if the response indicates success
     if (response?.success) {
-      // If the course is purchased
-      if (response.data) {
+      if (response?.data) {
         navigate(`/course-progress/${getCurrentCourseId}`);
-      // } else {
-      //   // If the course is not purchased
-      //   navigate(`/course/details/${getCurrentCourseId}`);
-      // }
-    } else {
-      // Handle cases where student courses are null or no purchased courses exist
-      console.error("Failed to check course purchase info:", response.message);
-      navigate(`/course/details/${getCurrentCourseId}`); // Redirect to course details
+      } 
+      else{
+        navigate(`/course/details/${getCurrentCourseId}`);
+      }
     }
-  }
-  
+    else {
+      navigate(`/course/details/${getCurrentCourseId}`);
+    }
+}
   
 
   useEffect(() => {
